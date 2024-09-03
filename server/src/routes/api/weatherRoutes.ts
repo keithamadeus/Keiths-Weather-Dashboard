@@ -18,9 +18,9 @@ router.post('/', async (req: Request, res: Response) => {
 
     // save city to search history
     const historyService = new HistoryService(
-      process.env.SEARCH_HISTORY_FILE || ''
+      process.env.SEARCH_HISTORY_FILE || './searchHistory.json'
     );
-    await historyService.saveCity(weatherData);
+    await historyService.addCity(req.body.cityName);
 
     // Send weather data as response
     res.json(weatherData);
@@ -32,11 +32,10 @@ router.post('/', async (req: Request, res: Response) => {
 // TODO: GET search history
 router.get('/history', async (_req: Request, res: Response) => {
   try {
-
     const historyService = new HistoryService(
-      process.env.SEARCH_HISTORY_FILE || ''
+      process.env.SEARCH_HISTORY_FILE || './searchHistory.json'
     );
-    const history = await historyService.readHistory();
+    const history = await historyService.getCities();
     res.json(history);
   } catch (error) {
     res.status(500).json({ message: (error as any).message });
@@ -46,9 +45,8 @@ router.get('/history', async (_req: Request, res: Response) => {
 // * BONUS TODO: DELETE city from search history
 router.delete('/history/:id', async (req: Request, res: Response) => {
   try {
-
     const historyService = new HistoryService(
-      process.env.SEARCH_HISTORY_FILE || ''
+      process.env.SEARCH_HISTORY_FILE || './searchHistory.json'
     );
     await historyService.removeCity(req.params.id);
     res.sendStatus(204);
