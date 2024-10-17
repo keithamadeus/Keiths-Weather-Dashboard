@@ -62,8 +62,25 @@ class WeatherService {
     const filteredDataResponse =  this.filterWeatherData(response.list);
     console.table(filteredDataResponse);
 
-    return filteredDataResponse.map((data) => new Weather(this.city, data.dt_txt, data.weather[0].icon, data.weather[0].description, data.main.temp, data.wind.speed, data.main.humidity));
-    
+    return filteredDataResponse.map((data) => {
+      const date = new Date(data.dt_txt);
+      const formattedDate = date.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+
+      return new Weather(
+        this.city,
+        formattedDate,
+        data.weather[0].icon,
+        data.weather[0].description,
+        data.main.temp,
+        data.wind.speed,
+        data.main.humidity
+      );
+    });
   }
 }
 
