@@ -2,24 +2,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-// TODO: Define an interface for the Coordinates object
-// interface Coordinates {
-//   lat: number;
-//   lon: number;
-// }
-
-// Define a City class with name and id properties
-// class city {
-//   name: string;
-//   id: string;
-
-//   constructor(name: string, id: string) {
-//     this.name = name;
-//     this.id = id;
-//   }
-// }
-
-// TODO: Define a class for the Weather object
+// Define a class for the Weather object
 class Weather {
   city: string;
   date: string;
@@ -41,9 +24,9 @@ class Weather {
 }
 
 
-// TODO: Complete the WeatherService class
+// Complete the WeatherService class
 class WeatherService {
-  // TODO: Define the baseURL, API key, and city name properties
+  // Define the baseURL, API key, and city name properties
   private baseURL: string;
   private apiKey: string;
   private city: string;
@@ -53,45 +36,34 @@ class WeatherService {
     this.apiKey = process.env.API_KEY || '';
     this.city = '';
   }
-  // TODO: Create fetchLocationData method
+  // Create fetchLocationData method
   private async fetchLocationData(query: string) {
     try {
       const response = await fetch(
-        `${this.baseURL}weather?q=${query}&appid=${this.apiKey}`
+        `${this.baseURL}forecast?q=${query}&appid=${this.apiKey}&units=imperial`
       )
       return await response.json();
   } catch (err) {
     console.log(err);
   }
 }
-  // TODO: Create destructureLocationData method
-  // private destructureLocationData(locationData: Coordinates): Coordinates {}
-  // TODO: Create buildGeocodeQuery method
-  // private buildGeocodeQuery(): string {}
-  // TODO: Create buildWeatherQuery method
-  // private buildWeatherQuery(coordinates: Coordinates): string {}
-  // TODO: Create fetchAndDestructureLocationData method
-  // private async fetchAndDestructureLocationData() {}
-  // TODO: Create fetchWeatherData method
-  // private async fetchWeatherData(coordinates: Coordinates) {}
-  // TODO: Build parseCurrentWeather method
-  // private parseCurrentWeather(response: any) {}
-  // TODO: Complete buildForecastArray method
-  // private buildForecastArray(currentWeather: Weather, weatherData: any[]) {}
-  // TODO: Complete getWeatherForCity method
+
+// Have respons data, need to clean it and send it back to the client
+// Filter the respons array into 6 itesm
+  filterWeatherData (weatherList: any[]) {
+    return weatherList
+  }
+
+  // transform data into Weather objects
+  
   async getWeatherForCity(city: string): Promise<Weather[]> {
     this.city = city;
-    console.log(await this.fetchLocationData(this.city));
+    const response = await this.fetchLocationData(this.city);
+    const filteredDataResponse =  this.filterWeatherData(response.list);
+    console.table(filteredDataResponse);
+
+    return filteredDataResponse.map((data) => new Weather(this.city, data.dt_txt, data.weather[0].icon, data.weather[0].description, data.main.temp, data.wind.speed, data.main.humidity));
     
-    const dummyData = [
-      { city: this.city, date: '10/16/24', icon: '11n', iconDescription: "Icon description", tempF: 0, windSpeed: 0, humidity: 0 },
-      { city: this.city, date: '10/16/24', icon: '11n', iconDescription: "Icon description", tempF: 0, windSpeed: 0, humidity: 0 },
-      { city: this.city, date: '10/16/24', icon: '11n', iconDescription: "Icon description", tempF: 0, windSpeed: 0, humidity: 0 },
-      { city: this.city, date: '10/16/24', icon: '11n', iconDescription: "Icon description", tempF: 0, windSpeed: 0, humidity: 0 },
-      { city: this.city, date: '10/16/24', icon: '11n', iconDescription: "Icon description", tempF: 0, windSpeed: 0, humidity: 0 },
-      { city: this.city, date: '10/16/24', icon: '11n', iconDescription: "Icon description", tempF: 0, windSpeed: 0, humidity: 0 }
-    ]
-    return dummyData.map((data) => new Weather(data.city, data.date, data.icon, data.iconDescription, data.tempF, data.windSpeed, data.humidity));
   }
 }
 
