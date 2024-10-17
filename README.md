@@ -1,6 +1,10 @@
 # Keiths-Weather-Dashboard
 
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  
+  [Weather Dashboard Deployed Link](https://keiths-weather-dashboard.onrender.com/)
+  
+  [GitHub Repo](https://github.com/keithamadeus/Keiths-Weather-Dashboard/tree/main)
 
   ## Description
   I Developed a weather dashboard application that interfaces with the OpenWeather API to provide real-time and forecast weather data for multiple cities, enhancing travel planning capabilities for users. During the Backend Development I Built server-side functionality to handle API calls, manage data, and deployed the application on Render. 
