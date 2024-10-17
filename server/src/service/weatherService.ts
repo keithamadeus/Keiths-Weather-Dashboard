@@ -60,7 +60,7 @@ class WeatherService {
     this.city = city;
     const response = await this.fetchLocationData(this.city);
     const filteredDataResponse =  this.filterWeatherData(response.list);
-    console.table(filteredDataResponse);
+    // console.table(filteredDataResponse);
 
     return filteredDataResponse.map((data) => {
       const date = new Date(data.dt_txt);
